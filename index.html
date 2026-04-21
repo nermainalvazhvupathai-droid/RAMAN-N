@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Public Opinion Survey</title>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+<style>
+body { font-family: Arial; background:#f4f6f9; margin:0;}
+.container { max-width:500px; margin:auto; background:#fff; padding:20px; margin-top:20px; border-radius:10px;}
+button { width:100%; padding:12px; margin-top:10px; background:#007bff; color:#fff; border:none;}
+.lang-btn { background:#28a745; }
+</style>
+
+<script>
+function toggleLang() {
+  let ta = document.getElementById("ta");
+  let en = document.getElementById("en");
+
+  if (ta.style.display === "none") {
+    ta.style.display = "block";
+    en.style.display = "none";
+  } else {
+    ta.style.display = "none";
+    en.style.display = "block";
+  }
+}
+
+// WhatsApp Share
+function shareWhatsApp() {
+  let url = window.location.href;
+  let text = "Public Opinion Survey - உங்கள் கருத்தை பதிவு செய்யுங்கள்: " + url;
+  window.open("https://wa.me/?text=" + encodeURIComponent(text));
+}
+
+// Dummy chart (replace with real data later)
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+    ['Option', 'Votes'],
+    ['Yes', 60],
+    ['No', 25],
+    ['Not Sure', 15]
+  ]);
+
+  var chart = new google.visualization.PieChart(document.getElementById('chart'));
+  chart.draw(data);
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<button class="lang-btn" onclick="toggleLang()">🌐 Language / மொழி</button>
+
+<!-- Tamil -->
+<div id="ta">
+<h2>🗳️ மக்கள் கருத்து சேகரிப்பு</h2>
+<p>இது அரசு தேர்தல் அல்ல</p>
+</div>
+
+<!-- English -->
+<div id="en" style="display:none;">
+<h2>🗳️ Public Opinion Survey</h2>
+<p>This is not an official election</p>
+</div>
+
+<form name="poll" method="POST" data-netlify="true">
+<input type="hidden" name="form-name" value="poll">
+
+<label>State</label>
+<input type="text" name="state" required>
+
+<label>District</label>
+<input type="text" name="district">
+
+<label>ONOE Support?</label>
+<input type="radio" name="onoe" value="Yes" required> Yes
+<input type="radio" name="onoe" value="No"> No
+<input type="radio" name="onoe" value="Not Sure"> Not Sure
+
+<button type="submit">Submit</button>
+</form>
+
+<button onclick="shareWhatsApp()">📲 Share on WhatsApp</button>
+
+<h3>📊 Live Results</h3>
+<div id="chart" style="height:300px;"></div>
+
+</div>
+
+</body>
+</html>
